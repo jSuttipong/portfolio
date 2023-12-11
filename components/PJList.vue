@@ -53,5 +53,6 @@
     border-radius: 5px;
     margin-bottom: 10px;
     cursor: pointer;
+    animation: fadeIn 1.5s, slideToUp 1.5s;
 }
 </style>

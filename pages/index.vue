@@ -23,7 +23,7 @@
     </transition>
 
     <transition name="fadeDown" mode="out-in">
-      <div class="w-100 container" v-if="showPJDisplay">
+      <div class="w-100 container pjdisplay-container position-absolute start-0 end-0" v-if="showPJDisplay">
         <div class="row g-0">
           <div class="col-8">
             <Display />
@@ -47,8 +47,8 @@ export default {
   data() {
     return {
       portFolio: portFolioData,
-      showWelcomePage: true,
-      showPJDisplay: false,
+      showWelcomePage: false,
+      showPJDisplay: true,
     };
   },
   mounted() {
@@ -85,14 +85,26 @@ export default {
 }
 .fadeDown-enter-active,
 .fadeDown-leave-active {
-  transition: opacity 1s;
+  transition: opacity 1.2s;
 }
 
 .fadeDown-enter,
 .fadeDown-leave-to {
-  animation: slideToDown 1.2s;
+  animation: slideToDown 1s;
   opacity: 0;
 }
+
+.component-enter-active,
+.component-leave-active {
+  transition: fadeIn 1s;
+}
+
+.component-enter,
+.component-leave-to {
+  animation: fadeOut 1s;
+  opacity: 0;
+}
+
 /* .leave-page{
   animation: fadeOut 1.2s;
 } */
@@ -165,5 +177,9 @@ button:hover .btn-text {
 button:hover.circle .icon.arrow {
   background: #ffff00;
   transform: translate(1rem, 0);
+}
+
+.pjdisplay-container{
+  animation: fadeIn 1.5s;
 }
 </style>
