@@ -26,14 +26,14 @@
       <div class="w-100 container pjdisplay-container position-absolute start-0 end-0" v-if="showPJDisplay">
         <div class="row g-0">
           <div class="col-8">
-            <Display />
+            <!-- <Display /> -->
 
             <!-- <TestComponent/> -->
           </div>
 
           <transition name="fadeDown" mode="out-in">
             <div class="col-4">
-              <PJList />
+              <PJList :projectNameList="projectNameList" @getSelectedName="getSelectedName" />
             </div>
           </transition>
         </div>
@@ -49,11 +49,14 @@ export default {
       portFolio: portFolioData,
       showWelcomePage: false,
       showPJDisplay: true,
+      projectNameList: [],
+      projectToDisplay: []
     };
   },
   mounted() {
-    console.log(typeof this.portFolio);
-    console.log(this.portFolio[0].name);
+    console.log(this.portFolio);
+    this.getProjectNameList(this.portFolio);
+    console.log('projectNameList :',this.projectNameList);
   },
   methods: {
     changeSection(id) {
@@ -61,11 +64,24 @@ export default {
         behavior: "smooth",
       });
     },
+    getProjectNameList(project){
+      project.forEach(element => {
+        this.projectNameList.push(element.shortName)
+      });
+    },
     handlePlayButton() {
       console.log("Button click");
       this.showWelcomePage = false;
       this.showPJDisplay = true;
     },
+    getSelectedName(name){
+      console.log('This name selected from pjlist component', name);
+      this.handleProjectToDisplay(name)
+    },
+    handleProjectToDisplay(name){
+      this.projectToDisplay = this.portFolio.find((element) => element.shortName == name)
+      console.log('handleProjectToDisplay :',this.projectToDisplay);
+    }
   },
 };
 </script>
