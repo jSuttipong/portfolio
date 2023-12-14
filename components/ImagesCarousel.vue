@@ -41,21 +41,6 @@ export default {
           name: "ktb",
           positionLength: "",
         },
-        // {
-        //   position: 5,
-        //   name: "ktb",
-        //   positionLength: "",
-        // },
-        // {
-        //   position: 6,
-        //   name: "ktb",
-        //   positionLength: "",
-        // },
-        // {
-        //   position: 7,
-        //   name: "ktb",
-        //   positionLength: "",
-        // },
       ],
       imageActiveIndex: 0,
       positionArray: [],

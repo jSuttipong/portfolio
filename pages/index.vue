@@ -26,7 +26,7 @@
       <div class="w-100 container pjdisplay-container position-absolute start-0 end-0" v-if="showPJDisplay">
         <div class="row g-0">
           <div class="col-8">
-            <!-- <Display /> -->
+            <Display :projectToDisplay="projectToDisplay" v-if="displayLoading" />
 
             <!-- <TestComponent/> -->
           </div>
@@ -50,12 +50,13 @@ export default {
       showWelcomePage: false,
       showPJDisplay: true,
       projectNameList: [],
-      projectToDisplay: []
+      projectToDisplay: [],
     };
   },
   mounted() {
     console.log(this.portFolio);
     this.getProjectNameList(this.portFolio);
+    this.handleProjectToDisplay(this.portFolio[0].shortName)
     console.log('projectNameList :',this.projectNameList);
   },
   methods: {
@@ -80,7 +81,7 @@ export default {
     },
     handleProjectToDisplay(name){
       this.projectToDisplay = this.portFolio.find((element) => element.shortName == name)
-      console.log('handleProjectToDisplay :',this.projectToDisplay);
+      // console.log('handleProjectToDisplay :',this.projectToDisplay);
     }
   },
 };

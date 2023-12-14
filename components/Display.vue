@@ -2,67 +2,84 @@
   <div class="dp-container ps-3">
     <div class="dp-layout">
       <div class="dp-pjname">
-        <h1>Project Name</h1>
-        <h4>Platfrom</h4>
+        <h1>{{ displayName }}</h1>
+        <h4>{{ displayPlatfrom }}</h4>
       </div>
 
       <div class="dp-images-container d-flex align-items-center">
-        <ImagesCarousel />
-        <!-- <div class="carousel d-flex align-items-center">
-          <img
-            v-for="(img, index) in images"
-            :src="getImageUrl(img.name)"
-            :class="{ imgActive: imageActiveIndex === index, }"
-            @click="handleImageToActive(img, index)"
-            :style="{ transform: `translateX(${img.positionLength}px)`}"
-          />
-        </div> -->
+        <!-- <ImagesCarousel /> -->
       </div>
       <div class="dp-techstack">
-        <TechStack :stackName="'Vue'" class="stack-item me-2" />
-        <TechStack :stackName="'Nuxt'" class="stack-item me-2" />
+        <TechStack
+          class="stack-item me-2 p-2"
+          v-for="tech in techList"
+          :stackName="tech"
+        />
+        <!-- <TechStack :stackName="'Vue'" class="stack-item me-2" />
+        <TechStack :stackName="'Nuxt'" class="stack-item me-2" /> -->
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: ["projectToDisplay"],
   data() {
     return {
-      images: [
-        {
-          position: 1,
-          name: "apt",
-          positionLength: "",
-        },
-        {
-          position: 2,
-          name: "cubhouse",
-          positionLength: "",
-        },
-        {
-          position: 3,
-          name: "ibank",
-          positionLength: "",
-        },
-        {
-          position: 4,
-          name: "ktb",
-          positionLength: "",
-        },
-      ],
-      imagesShow: [
-        new URL(`/assets/images/apt.png`, import.meta.url),
-        new URL(`/assets/images/cubhouse.png`, import.meta.url),
-        new URL(`/assets/images/ibank.png`, import.meta.url),
-      ],
+      projectData: "",
+      // images: [
+      //   {
+      //     position: 1,
+      //     name: "apt",
+      //     positionLength: "",
+      //   },
+      //   {
+      //     position: 2,
+      //     name: "cubhouse",
+      //     positionLength: "",
+      //   },
+      //   {
+      //     position: 3,
+      //     name: "ibank",
+      //     positionLength: "",
+      //   },
+      //   {
+      //     position: 4,
+      //     name: "ktb",
+      //     positionLength: "",
+      //   },
+      // ],
+      // imagesShow: [
+      //   new URL(`/assets/images/apt.png`, import.meta.url),
+      //   new URL(`/assets/images/cubhouse.png`, import.meta.url),
+      //   new URL(`/assets/images/ibank.png`, import.meta.url),
+      // ],
       imageActiveIndex: 0,
       positionArray: [],
+      displayName: "Project Name",
+      displayPlatfrom: "Platfrom",
+      techList: [],
     };
   },
-  computed: {},
-  mounted() {},
-  methods: {},
+  computed:{
+  },
+  mounted() {
+    console.log('ssss',this.projectToDisplay);
+    // if (this.projectToDisplay) {
+    //   this.projectData = this.projectToDisplay;
+    //   this.displayName = this.projectData.name
+    //     ? this.projectData.name
+    //     : "Project Name";
+    //   this.displayPlatfrom = this.projectData.des
+    //     ? this.projectData.des
+    //     : "Platfrom";
+    //   this.techList = this.projectData.stack;
+    // }
+    // console.log('this.techList',this.techList);
+  },
+  methods: {
+
+  },
 };
 </script>
 
