@@ -13,7 +13,7 @@
     <!-- <DisplayPJ :portData="data" :pjIndex="index" class="display-pj-container d-flex align-items-center " v-for="(data, index) in portFolio"/> -->
     <transition name="fadeDown" mode="out-in">
       <button
-        class="play-button circle"
+        class="play-button square"
         @click="handlePlayButton()"
         v-if="showWelcomePage"
       >
@@ -23,16 +23,26 @@
     </transition>
 
     <transition name="fadeDown" mode="out-in">
-      <div class="w-100 container pjdisplay-container position-absolute start-0 end-0" v-if="showPJDisplay">
+      <button class="back-button square" v-if="!showWelcomePage" @click="showWelcomePage = true; showPJDisplay = false" > 
+        <span class="icon arrowleft"></span>
+      </button>
+    </transition>
+
+    <transition name="fadeDown" mode="out-in">
+      <div
+        class="w-100 container pjdisplay-container position-absolute start-0 end-0"
+        v-if="showPJDisplay"
+      >
         <div class="row g-0">
-          <div class="col-8">
-            <Display :projectToDisplay="projectToDisplay" v-if="displayLoading" />
-
-            <!-- <TestComponent/> -->
+          <div class="col-12 col-md-8 position-relative col-height pe-sm-3">
+            <Display
+              :projectToDisplay="projectToDisplay"
+              v-if="displayLoading == false"
+            />
           </div>
-
+            <!-- <TestComponent/> -->
           <transition name="fadeDown" mode="out-in">
-            <div class="col-4">
+            <div class="col-12 col-md-4 position-relative mt-5 mt-sm-0">
               <PJList :projectNameList="projectNameList" @getSelectedName="getSelectedName" />
             </div>
           </transition>
@@ -47,17 +57,18 @@ export default {
   data() {
     return {
       portFolio: portFolioData,
-      showWelcomePage: false,
-      showPJDisplay: true,
+      showWelcomePage: true,
+      showPJDisplay: false,
       projectNameList: [],
       projectToDisplay: [],
+      displayLoading: true,
     };
   },
   mounted() {
     console.log(this.portFolio);
     this.getProjectNameList(this.portFolio);
-    this.handleProjectToDisplay(this.portFolio[0].shortName)
-    console.log('projectNameList :',this.projectNameList);
+    this.handleProjectToDisplay(this.portFolio[0].shortName);
+    console.log("projectNameList :", this.projectNameList);
   },
   methods: {
     changeSection(id) {
@@ -65,31 +76,37 @@ export default {
         behavior: "smooth",
       });
     },
-    getProjectNameList(project){
-      project.forEach(element => {
-        this.projectNameList.push(element.shortName)
+    getProjectNameList(project) {
+      project.forEach((element) => {
+        this.projectNameList.push(element.shortName);
       });
     },
     handlePlayButton() {
-      console.log("Button click");
+      // console.log("Button click");
       this.showWelcomePage = false;
       this.showPJDisplay = true;
     },
-    getSelectedName(name){
-      console.log('This name selected from pjlist component', name);
-      this.handleProjectToDisplay(name)
+    getSelectedName(name) {
+      this.displayLoading = true;
+      // console.log('This name selected from pjlist component', name);
+      this.handleProjectToDisplay(name);
     },
-    handleProjectToDisplay(name){
-      this.projectToDisplay = this.portFolio.find((element) => element.shortName == name)
+    handleProjectToDisplay(name) {
+      this.projectToDisplay = this.portFolio.find(
+        (element) => element.shortName == name
+      );
       // console.log('handleProjectToDisplay :',this.projectToDisplay);
-    }
+      setTimeout(() => {
+        this.displayLoading = false;
+      }, 200);
+    },
   },
 };
 </script>
 
 <style>
 .display-layout {
-  height: 100vh;
+  height: 100dvh;
 }
 .title-name {
   color: #0000ff;
@@ -139,11 +156,22 @@ button.circle {
   /* position: relative; */
   width: 3rem;
   height: 3rem;
+  /* background: linear-gradient(-45deg, transparent 0%, rgba(0, 0, 255, 0.5) 10%); */
   background: #0000ff;
   border-radius: 1.625rem;
-  border: 0;
+  /* border: 0; */
+  border: none;
   transition: 0.45s ease-in-out;
-  box-shadow: 0px 0px 1px 3px #0000ff;
+  box-shadow: 0px 0px 1px 3px rgb(0, 0, 255);
+  /* box-shadow: 0px 0px 5px 1px rgb(0, 0, 255); */
+}
+button.square {
+  width: 3rem;
+  height: 3rem;
+  background: #0000ff;
+  border: none;
+  transition: 0.45s ease-in-out;
+  box-shadow: 0px 0px 1px 3px rgb(0, 0, 255);
 }
 .btn-text {
   position: absolute;
@@ -185,18 +213,59 @@ button .icon.arrow::before {
   border-right: 0.125rem solid #ffff00;
   transform: rotate(45deg);
 }
-button:hover.circle {
+button.play-button:hover.square {
   width: 9rem;
 }
-button:hover .btn-text {
-  opacity: 1;
-}
-button:hover.circle .icon.arrow {
+button.play-button:hover.square .icon.arrow {
   background: #ffff00;
   transform: translate(1rem, 0);
 }
 
-.pjdisplay-container{
+button.play-button:hover.circle {
+  width: 9rem;
+}
+button.play-button:hover .btn-text {
+  opacity: 1;
+}
+button.play-button:hover.circle .icon.arrow {
+  background: #ffff00;
+  transform: translate(1rem, 0);
+}
+
+.back-button{
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 100px;
+}
+
+button .icon.arrowleft::before {
+  position: absolute;
+  content: "";
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #ffff00;
+  border-right: 0.125rem solid #ffff00;
+  transform: rotate(220deg);
+}
+
+.pjdisplay-container {
   animation: fadeIn 1.5s;
+}
+.pjdisplay-container .row .col-height {
+  height: 600px;
+}
+
+@media only screen and (max-width: 576px) {
+  .display-layout {
+    min-height: 100dvh;
+    height: auto;
+  }
+
+  .pjdisplay-container .row .col-height {
+  height: 400px;
+}
 }
 </style>

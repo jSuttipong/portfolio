@@ -11,5 +11,6 @@ export default defineNuxtConfig({
     "~/assets/css/font.css",
     "~/assets/css/animation.css",
     "bootstrap/dist/css/bootstrap.min.css",
+    "~/assets/scss/animations.scss"
   ],
 });
